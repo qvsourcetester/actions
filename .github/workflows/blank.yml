@@ -4,8 +4,16 @@ name: CI
 
 # Controls when the workflow will run
 on:
-   pull_request:
-    types: [ opened, labeled, unlabeled ]
+   # Run on push events, but only for the below branches
+  push:
+    branches:
+      - 'main'
+      - 'prod-**'
+  # Run on pull requests, but only for the below targets
+  pull_request:
+    branches:
+      - 'main'
+      - 'next-**'
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
@@ -16,7 +24,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event.label.name == 'experiment' }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
